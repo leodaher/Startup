@@ -6,7 +6,7 @@ var entregadorSchema = new mongoose.Schema({
   dtNasc: Date,
   cpf: String,
   fone: String,
-  enderecos: [mongoose.Schema.Types.ObjectId],
+  endereco: mongoose.Schema.Types.ObjectId,
   comprovanteResid: String,
   cnh: String,
   clrv: String,
