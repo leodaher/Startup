@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var entregadorSchema = mongoose.Schema({
+var entregadorSchema = new mongoose.Schema({
   email: String,
   nome: String,
   dtNasc: Date,
