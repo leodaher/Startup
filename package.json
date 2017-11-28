@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/leodaher/Startup#readme",
   "dependencies": {
+    "convict": "^4.0.1",
     "express": "^4.16.2",
-    "mongoose": "^4.13.4"
+    "mongoose": "^4.13.4",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1"
   }
 }
