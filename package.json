@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/leodaher/Startup#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "convict": "^4.0.1",
     "express": "^4.16.2",
     "mongoose": "^4.13.4",

@@ -1,12 +1,18 @@
 var express = require("express"),
     passport = require("passport"),
-    controllers = require("./controllers/index");
+    mongoose = require("mongoose"),
+    controllers = require("./controllers/index"),
+    bodyParser = require("body-parser"),
     app = express();
 
-require("./authentication/cliente/jwt");
+// Connect to database
+mongoose.connect('mongodb://localhost/startup');
 
 // Initialize passport as authentication system
 app.use(passport.initialize());
+
+// BodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Requiring the routes
 app.use(controllers);
