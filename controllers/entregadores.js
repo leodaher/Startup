@@ -1,39 +1,37 @@
 var express = require("express"),
     bcrypt = require("bcrypt"),
-    Cliente = require("../models/Cliente"),
+    Entregador = require("../models/Entregador"),
     router = express.Router();
 
 /*
---------- INDEX - list all clients ------------
+---------- INDEX - list all entregadores ------------
 */
 router.get("/", function(req, res){
-  Cliente.find(function(err, clientes) {
+  Entregador.find(function(err, entregadores){
     if(err) {
       res.status(500).json({ message: err });
     } else {
-      res.status(200).json({ clientes: clientes });
+      res.status(200).json({ entregadores: entregadores });
     }
   })
 });
 
 /*
---------- CREATE - create new clients -----------
+---------- CREATE - create new entregador ------------
 */
-router.post("/", function(req, res) {
+router.post("/", function(req, res){
 
-  // Getting body fields
   var email = req.body.email,
       realpassword = req.body.password,
-      facebook_id = req.body.facebook_id,
-      facebook_token = req.body.facebook_token,
       nome = req.body.nome,
+      dtNasc = req.body.dtNasc,
       cpf = req.body.cpf,
       fone = req.body.fone,
-      dtNasc = req.body.dtNasc;
+      comprovanteResid = req.body.comprovanteResid,
+      cnh = req.body.cnh,
+      clrv = req.body.clrv;
 
-  // Check if email or password are empty
   if(!email || email == "") {
-
     res.status(400).json({
       message: "Erros de validação",
       errors: [
@@ -44,8 +42,7 @@ router.post("/", function(req, res) {
         }
       ]
     });
-  } else if(!realpassword || realpassword == "") {
-
+  } else if(!realpassword || realpassword == ""){
     res.status(400).json({
       message: "Erros de validação",
       errors: [
@@ -57,9 +54,7 @@ router.post("/", function(req, res) {
       ]
     });
   } else {
-
-    // Checking if email already exists
-    Cliente.find({ email: email}, function(err, results) {
+    Entregador.find({ email: email}, function(err, results) {
       if(err) {
         res.status(500).json({ message: err });
       } else {
@@ -81,26 +76,25 @@ router.post("/", function(req, res) {
             if(err) {
               res.status(500).json({ message: err });
             } else {
-              var cliente = new Cliente({
+              var entregador = new Entregador({
                 email: email,
                 password: password,
-                facebook: {
-                  id: facebook_id,
-                  token: facebook_token
-                },
                 nome: nome,
+                dtNasc: dtNasc,
                 cpf: cpf,
                 fone: fone,
-                dtNasc: dtNasc
+                comprovanteResid: comprovanteResid,
+                cnh: cnh,
+                clrv: clrv
               });
 
-              // Saving new client
-              cliente.save(function(err){
+              // Saving new entregador
+              entregador.save(function(err){
                 if(err) {
                   console.log(err);
                   res.status(500).json({ message: err });
                 } else {
-                  res.status(201).json({ message: "O cliente foi criado com sucesso." });
+                  res.status(201).json({ message: "O entregador foi criado com sucesso." });
                 }
               });
             }
@@ -112,36 +106,39 @@ router.post("/", function(req, res) {
 });
 
 /*
------------ SHOW - return a specific client -----------
+----------- SHOW - return specific entregador ---------
 */
-router.get("/:id", function(req, res) {
-  Cliente.findOne({ _id: req.params.id }, function(err, cliente){
+router.get("/:id", function(req, res){
+  Entregador.findOne({ _id: req.params.id }, function(err, entregador){
     if(err) {
       res.status(500).json({ message: err });
     } else {
-      res.status(200).json({ cliente: cliente });
+      res.status(200).json({ entregador: entregador });
     }
   })
 });
 
 /*
------------ UPDATE - update specific client -----------
+----------- UPDATE - update specific entregador -------
 */
-router.put("/:id", function(req, res) {
-  Cliente.findOne({ _id: req.params.id }, function(err, cliente){
+router.put("/:id", function(req, res){
+  Entregador.findOne({ _id: req.params.id }, function(err, entregador){
     if(err) {
       res.status(500).json({ message: err });
     } else {
-      cliente.nome = req.body.nome || cliente.nome;
-      cliente.cpf = req.body.cpf || cliente.cpf;
-      cliente.fone = req.body.fone || cliente.fone;
-      cliente.dtNasc = req.body.dtNasc || cliente.dtNasc;
+      entregador.nome = req.body.nome || entregador.nome;
+      entregador.cpf = req.body.cpf || entregador.cpf;
+      entregador.fone = req.body.fone || entregador.fone;
+      entregador.dtNasc = req.body.dtNasc || entregador.dtNasc;
+      entregador.comprovanteResid = req.body.comprovanteResid || entregador.comprovanteResid;
+      entregador.cnh = req.body.cnh || entregador.cnh;
+      entregador.clrv = req.body.clrv || entregador.clrv;
 
-      cliente.save(function(err, updatedCliente) {
+      entregador.save(function(err, updatedEntregador) {
         if(err) {
           res.status(500).json({ message: err });
         } else {
-          res.status(200).json({ cliente: updatedCliente });
+          res.status(200).json({ entregador: updatedEntregador });
         }
       })
     }
@@ -152,7 +149,7 @@ router.put("/:id", function(req, res) {
 ------------ DELETE - remove specific client
 */
 router.delete("/:id", function(req, res) {
-  Cliente.remove({ _id: req.params.id }, function(err){
+  Entregador.remove({ _id: req.params.id }, function(err){
     if(err) {
       res.status(500).json({ message: err });
     } else {

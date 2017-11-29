@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 
 var entregadorSchema = new mongoose.Schema({
   email: String,
+  password: String,
   nome: String,
   dtNasc: Date,
   cpf: String,
