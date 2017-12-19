@@ -1,25 +1,7 @@
-var express = require("express"),
-    bcrypt = require("bcrypt"),
-    Cliente = require("../models/Cliente"),
-    router = express.Router();
+var bcrypt = require("bcrypt"),
+    Cliente = require("../../models/Cliente");
 
-/*
---------- INDEX - list all clients ------------
-*/
-router.get("/", function(req, res){
-  Cliente.find(function(err, clientes) {
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(200).json({ clientes: clientes });
-    }
-  })
-});
-
-/*
---------- CREATE - create new clients -----------
-*/
-router.post("/", function(req, res) {
+module.exports = function(req, res) {
 
   // Getting body fields
   var email = req.body.email,
@@ -109,56 +91,4 @@ router.post("/", function(req, res) {
       }
     });
   }
-});
-
-/*
------------ SHOW - return a specific client -----------
-*/
-router.get("/:id", function(req, res) {
-  Cliente.findOne({ _id: req.params.id }, function(err, cliente){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(200).json({ cliente: cliente });
-    }
-  })
-});
-
-/*
------------ UPDATE - update specific client -----------
-*/
-router.put("/:id", function(req, res) {
-  Cliente.findOne({ _id: req.params.id }, function(err, cliente){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      cliente.nome = req.body.nome || cliente.nome;
-      cliente.cpf = req.body.cpf || cliente.cpf;
-      cliente.fone = req.body.fone || cliente.fone;
-      cliente.dtNasc = req.body.dtNasc || cliente.dtNasc;
-
-      cliente.save(function(err, updatedCliente) {
-        if(err) {
-          res.status(500).json({ message: err });
-        } else {
-          res.status(200).json({ cliente: updatedCliente });
-        }
-      })
-    }
-  })
-});
-
-/*
------------- DELETE - remove specific client
-*/
-router.delete("/:id", function(req, res) {
-  Cliente.remove({ _id: req.params.id }, function(err){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(204).json();
-    }
-  })
-})
-
-module.exports = router;
+};

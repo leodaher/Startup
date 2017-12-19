@@ -2,9 +2,9 @@ var jwt = require('jsonwebtoken'),
     config = require('../config');
 
 // Generate an Access Token for the given User ID
-function generateAccessToken(userId) {
+module.exports.generateAccessToken = function(userId) {
   // How long will the token be valid for
-  var expiresIn = '1 hour';
+  var expiresIn = "1h";
   // Which service issued the token
   var issuer = config.get('authentication.token.issuer');
   // Which service is the token intended for

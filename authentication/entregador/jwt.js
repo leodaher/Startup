@@ -1,6 +1,6 @@
 var jwt = require("jsonwebtoken"),
     config = require("../../config"),
-    Cliente = require("../../models/Cliente");
+    Entregador = require("../../models/Entregador");
 
 
 module.exports = function(req, res, next) {
@@ -15,7 +15,7 @@ module.exports = function(req, res, next) {
         if(decoded.exp*1000 <= Date.now()) {
           res.status(400).json({ message: "Token de acesso expirado" });
         } else {
-          Cliente.findOne({ _id: decoded.sub }, function(err, user) {
+          Entregador.findOne({ _id: decoded.sub }, function(err, user) {
             res.user = user;
             next();
           })

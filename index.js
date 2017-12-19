@@ -1,7 +1,7 @@
 var express = require("express"),
     passport = require("passport"),
     mongoose = require("mongoose"),
-    controllers = require("./controllers/index"),
+    routes = require("./routes"),
     bodyParser = require("body-parser"),
     app = express();
 
@@ -15,7 +15,7 @@ app.use(passport.initialize());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Requiring the routes
-app.use(controllers);
+app.use(routes);
 
 app.listen(3000, function(err) {
   if(err) {

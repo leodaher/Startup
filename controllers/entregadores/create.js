@@ -1,25 +1,7 @@
-var express = require("express"),
-    bcrypt = require("bcrypt"),
-    Entregador = require("../models/Entregador"),
-    router = express.Router();
+var bcrypt = require("bcrypt"),
+    Entregador = require("../../models/Entregador");
 
-/*
----------- INDEX - list all entregadores ------------
-*/
-router.get("/", function(req, res){
-  Entregador.find(function(err, entregadores){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(200).json({ entregadores: entregadores });
-    }
-  })
-});
-
-/*
----------- CREATE - create new entregador ------------
-*/
-router.post("/", function(req, res){
+module.exports = function(req, res){
 
   var email = req.body.email,
       realpassword = req.body.password,
@@ -103,59 +85,4 @@ router.post("/", function(req, res){
       }
     });
   }
-});
-
-/*
------------ SHOW - return specific entregador ---------
-*/
-router.get("/:id", function(req, res){
-  Entregador.findOne({ _id: req.params.id }, function(err, entregador){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(200).json({ entregador: entregador });
-    }
-  })
-});
-
-/*
------------ UPDATE - update specific entregador -------
-*/
-router.put("/:id", function(req, res){
-  Entregador.findOne({ _id: req.params.id }, function(err, entregador){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      entregador.nome = req.body.nome || entregador.nome;
-      entregador.cpf = req.body.cpf || entregador.cpf;
-      entregador.fone = req.body.fone || entregador.fone;
-      entregador.dtNasc = req.body.dtNasc || entregador.dtNasc;
-      entregador.comprovanteResid = req.body.comprovanteResid || entregador.comprovanteResid;
-      entregador.cnh = req.body.cnh || entregador.cnh;
-      entregador.clrv = req.body.clrv || entregador.clrv;
-
-      entregador.save(function(err, updatedEntregador) {
-        if(err) {
-          res.status(500).json({ message: err });
-        } else {
-          res.status(200).json({ entregador: updatedEntregador });
-        }
-      })
-    }
-  })
-});
-
-/*
------------- DELETE - remove specific client
-*/
-router.delete("/:id", function(req, res) {
-  Entregador.remove({ _id: req.params.id }, function(err){
-    if(err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.status(204).json();
-    }
-  })
-})
-
-module.exports = router;
+};

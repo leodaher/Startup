@@ -3,6 +3,6 @@ var express = require("express"),
 
 router.use("/clientes", require('./clientes'));
 router.use("/entregadores", require('./entregadores'));
-router.use("/produtos", require('./produtos'));
+//router.use("/produtos", require('./produtos'));
 
 module.exports = router;
